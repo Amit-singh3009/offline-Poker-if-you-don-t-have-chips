@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline Poker Chip Table</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="setup-screen" id="setupScreen">
+        <div class="setup-copy">
+          <p class="eyebrow">Offline poker companion</p>
+          <h1>Poker Chip Table</h1>
+          <p>
+            Track chip stacks, blinds, turns, bets, folds, pots, and winners for
+            a real-card poker night with up to 13 players.
+          </p>
+        </div>
+
+        <form class="setup-panel" id="setupForm">
+          <div class="field-row">
+            <label for="playerCount">Players</label>
+            <input id="playerCount" type="number" min="2" max="13" value="6" />
+          </div>
+          <div class="field-row">
+            <label for="startingStack">Starting chips</label>
+            <input id="startingStack" type="number" min="0" step="25" value="1000" />
+          </div>
+          <div class="field-row">
+            <label for="smallBlind">Small blind</label>
+            <input id="smallBlind" type="number" min="0" step="5" value="10" />
+          </div>
+          <div class="field-row">
+            <label for="bigBlind">Big blind</label>
+            <input id="bigBlind" type="number" min="0" step="5" value="20" />
+          </div>
+
+          <div class="names-grid" id="namesGrid"></div>
+
+          <button class="primary-action" type="submit">Start table</button>
+          <button class="ghost-action" id="loadSavedBtn" type="button">Load saved table</button>
+        </form>
+      </section>
+
+      <section class="table-screen hidden" id="tableScreen">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Hand <span id="handNumber">1</span></p>
+            <h1 id="gameTitle">Poker Chip Table</h1>
+          </div>
+          <div class="topbar-actions">
+            <button id="undoBtn" type="button" title="Undo last action">Undo</button>
+            <button id="saveBtn" type="button" title="Save this table">Save</button>
+            <button id="exportBtn" type="button" title="Download a table backup">Export</button>
+            <label class="import-label" title="Import a table backup">
+              Import
+              <input id="importInput" type="file" accept="application/json" />
+            </label>
+            <button id="resetBtn" type="button" class="danger">Reset</button>
+          </div>
+        </header>
+
+        <section class="score-strip" aria-label="Table summary">
+          <div>
+            <span>Pot</span>
+            <strong id="potTotal">0</strong>
+          </div>
+          <div>
+            <span>To call</span>
+            <strong id="toCall">0</strong>
+          </div>
+          <div>
+            <span>Blinds</span>
+            <strong id="blindSummary">10 / 20</strong>
+          </div>
+          <div>
+            <span>Dealer</span>
+            <strong id="dealerName">Player 1</strong>
+          </div>
+        </section>
+
+        <section class="table-layout">
+          <div class="poker-table" id="playerGrid" aria-label="Players"></div>
+
+          <aside class="control-panel">
+            <div class="panel-section">
+              <h2>Current Player</h2>
+              <select id="activePlayerSelect"></select>
+              <div class="active-player-card" id="activePlayerCard"></div>
+            </div>
+
+            <div class="panel-section">
+              <h2>Actions</h2>
+              <div class="amount-row">
+                <button id="minusBlindBtn" type="button">- blind</button>
+                <input id="actionAmount" type="number" min="0" step="5" value="20" />
+                <button id="plusBlindBtn" type="button">+ blind</button>
+              </div>
+              <div class="action-grid">
+                <button id="betBtn" type="button">Bet / call</button>
+                <button id="allInBtn" type="button">All in</button>
+                <button id="checkBtn" type="button">Check</button>
+                <button id="foldBtn" type="button">Fold</button>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>Hand Controls</h2>
+              <div class="action-grid">
+                <button id="postBlindsBtn" type="button">Post blinds</button>
+                <button id="nextStreetBtn" type="button">Next betting round</button>
+                <button id="newHandBtn" type="button">New hand</button>
+                <button id="rebuyBtn" type="button">Rebuy selected</button>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>Award Pot</h2>
+              <div class="winner-list" id="winnerList"></div>
+              <button class="primary-action" id="awardBtn" type="button">Award selected winners</button>
+            </div>
+
+            <div class="panel-section log-section">
+              <h2>Table Log</h2>
+              <ol id="eventLog"></ol>
+            </div>
+          </aside>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
